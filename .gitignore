@@ -1,0 +1,4 @@
+curriculum/migrations/
+
+*.unuse
+*.pyc
