@@ -9,7 +9,7 @@ from curriculum.models import Student, Course, StudentCourseMap
 
 def index(request):
   if request.method == "GET":
-    data = query(request.GET.get("stuNum", None))
+    data = query(request.GET.get("stuNum", None), request.GET.get("term", None))
   else:
     return HttpResponseNotFound('<h1>Page not found</h1>')
 
@@ -49,20 +49,25 @@ def getStudentInfo(stuNum):
     "class": student.stu_class
   }
 
-def query(stuNum):
+def query(stuNum, term):
   if stuNum == None:
     return {
       "code": 10404,
       "error": "参数错误"
     }
 
-  result = StudentCourseMap.objects.filter(student__stu_num=stuNum)
+  if term == None:
+    result = StudentCourseMap.objects.filter(student__stu_num=stuNum)
+  else:
+    result = StudentCourseMap.objects.filter(term=term).filter(student__stu_num=stuNum)
 
-  data = []
+  data = {}
   for studentCourseMap in result:
     course = studentCourseMap.course
+    if data.get(studentCourseMap.term) == None:
+      data[studentCourseMap.term] = []
 
-    data.append({
+    data[studentCourseMap.term].append({
       "courseNum": course.course_num,
       "courseName": course.course_name,
       "teacher": course.teacher,
