@@ -9,13 +9,14 @@ from django.conf import settings
 import django
 django.setup()
 from curriculum.models import Course, Student, StudentCourseMap
+from szu_api.views import getTermNum
 
 default_encoding = 'utf-8'
 if sys.getdefaultencoding() != default_encoding:
     reload(sys)
     sys.setdefaultencoding(default_encoding)
 
-termNum = "20162" # 要爬取的学期号
+termNum = getTermNum() # 要爬取的学期号
 coursesListBaseUrl = "http://192.168.2.229/newkc/akcjj0.asp"
 course = "http://192.168.2.229/newkc/akechengdw.asp" # 开课单位列表url
 courseListUrl = "http://192.168.2.229/newkc/kccx.asp?flag=kkdw" # 课程列表url

@@ -2,3 +2,6 @@ curriculum/migrations/
 
 *.unuse
 *.pyc
+
+# Mac
+.DS_Store
